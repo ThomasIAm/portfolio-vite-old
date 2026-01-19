@@ -23,6 +23,7 @@ const dependencies: Dependency[] = [
   { name: "React Markdown", url: "https://github.com/remarkjs/react-markdown", license: "MIT", description: "Markdown component for React" },
   { name: "Prism React Renderer", url: "https://github.com/FormidableLabs/prism-react-renderer", license: "MIT", description: "Syntax highlighting for code blocks" },
   { name: "Unhead (React)", url: "https://unhead.unjs.io", license: "MIT", description: "Document head manager for React" },
+  { name: "Cloudflare AI Search", url: "https://developers.cloudflare.com/ai-search/", license: "Proprietary", description: "AI-powered semantic search for site content" },
   { name: "date-fns 4", url: "https://date-fns.org", license: "MIT", description: "Modern JavaScript date utility library" },
   { name: "Embla Carousel", url: "https://www.embla-carousel.com", license: "MIT", description: "Lightweight carousel library with great performance" },
   { name: "Sonner 2", url: "https://sonner.emilkowal.ski", license: "MIT", description: "Opinionated toast component for React" },
