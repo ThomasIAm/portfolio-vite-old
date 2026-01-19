@@ -10,6 +10,7 @@ A modern, responsive portfolio website showcasing my work as a Lead Cyber Securi
 - **UI Components:** shadcn/ui (Radix UI primitives)
 - **Head Management:** Unhead (`@unhead/react`)
 - **Content Management:** Contentful CMS
+- **Search:** Cloudflare AI Search (semantic search via Worker binding)
 - **Routing:** React Router 7
 - **Data Fetching:** TanStack Query
 - **Carousel:** Embla Carousel
@@ -101,12 +102,27 @@ Add these environment variables in Cloudflare Pages dashboard under **Settings â
 ### Cloudflare Functions
 
 This project uses Cloudflare Pages Functions for:
+- **AI Search API** (`functions/api/search.ts`) - Semantic search using Cloudflare AI Search Worker binding
 - Dynamic OG image generation (`functions/og/`)
 - OG metadata fetching API (`functions/api/og-metadata.ts`)
 - Dynamic sitemap generation (`functions/sitemap.xml.ts`)
 - SEO middleware for meta tag injection (`functions/_middleware.ts`)
 
 These are automatically deployed when you deploy to Cloudflare Pages.
+
+### Cloudflare AI Search Setup
+
+The site includes an AI-powered search feature. To enable it:
+
+1. Create an AI Search project in the Cloudflare dashboard
+2. Add the `AI_SEARCH` binding to your `wrangler.toml` or Cloudflare Pages settings:
+   ```toml
+   [[ai_search]]
+   binding = "AI_SEARCH"
+   project_id = "your-ai-search-project-id"
+   ```
+3. Index your content in the AI Search project
+4. The search modal is accessible via the floating search button or `Ctrl+K` / `âŒ˜K`
 
 ### API Documentation
 
