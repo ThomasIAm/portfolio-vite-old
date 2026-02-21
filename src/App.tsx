@@ -18,6 +18,7 @@ const Series = lazy(() => import("./pages/Series"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Cookies = lazy(() => import("./pages/Cookies"));
 const Privacy = lazy(() => import("./pages/Privacy"));
+const Preview = lazy(() => import("./pages/Preview"));
 const Notice = lazy(() => import("./pages/Notice"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
@@ -48,6 +49,7 @@ const App = () => (
               <Route path="/contact" element={<Contact />} />
               <Route path="/cookies" element={<Cookies />} />
               <Route path="/privacy" element={<Privacy />} />
+              <Route path="/preview/:slug" element={<Preview />} />
               <Route path="/notice" element={<Notice />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

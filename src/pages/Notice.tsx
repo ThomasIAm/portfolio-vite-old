@@ -24,6 +24,7 @@ const dependencies: Dependency[] = [
   { name: "Prism React Renderer", url: "https://github.com/FormidableLabs/prism-react-renderer", license: "MIT", description: "Syntax highlighting for code blocks" },
   { name: "Unhead (React)", url: "https://unhead.unjs.io", license: "MIT", description: "Document head manager for React" },
   { name: "Cloudflare AI Search", url: "https://developers.cloudflare.com/ai-search/", license: "Proprietary", description: "AI-powered semantic search for site content" },
+  { name: "Contentful Preview API", url: "https://www.contentful.com/developers/docs/references/content-preview-api/", license: "Proprietary", description: "Draft content preview for unpublished entries" },
   { name: "date-fns 4", url: "https://date-fns.org", license: "MIT", description: "Modern JavaScript date utility library" },
   { name: "Embla Carousel", url: "https://www.embla-carousel.com", license: "MIT", description: "Lightweight carousel library with great performance" },
   { name: "Sonner 2", url: "https://sonner.emilkowal.ski", license: "MIT", description: "Opinionated toast component for React" },

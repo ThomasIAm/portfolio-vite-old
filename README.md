@@ -95,7 +95,7 @@ Add these environment variables in Cloudflare Pages dashboard under **Settings â
 |----------|-------------|----------|---------|
 | `CONTENTFUL_SPACE_ID` | Your Contentful space ID | Yes | 1a1aaaaaaa11 |
 | `CONTENTFUL_ACCESS_TOKEN` | Contentful Delivery API token | Yes | AA1AA1aaA1aAAA11aAaA11AA1AaAa1a1AaAAaAAAAaA |
-| `CONTENTFUL_PREVIEW_TOKEN` | Contentful Preview API token | No | AA1AA1aaA1aAAA11aAaA11AA1AaAa1a1AaAAaAAAAaA |
+| `CONTENTFUL_PREVIEW_TOKEN` | Contentful Preview API token (enables `/preview/:slug` route) | No | AA1AA1aaA1aAAA11aAaA11AA1AaAa1a1AaAAaAAAAaA |
 | `CF_PAGES_URL` | Your (custom) Pages domain | No | https://tvdn.me |
 | `VITE_ENABLE_CF_IMAGE_TRANSFORM` | If Cloudflare Image Transform should be enabled | No | true |
 
@@ -103,6 +103,7 @@ Add these environment variables in Cloudflare Pages dashboard under **Settings â
 
 This project uses Cloudflare Pages Functions for:
 - **AI Search API** (`functions/api/search.ts`) - Semantic search using Cloudflare AI Search Worker binding
+- **Content Preview API** (`functions/api/preview.ts`) - Fetches draft content from Contentful Preview API
 - Dynamic OG image generation (`functions/og/`)
 - OG metadata fetching API (`functions/api/og-metadata.ts`)
 - Dynamic sitemap generation (`functions/sitemap.xml.ts`)
@@ -171,6 +172,7 @@ functions/
 | `/blog` | Blog listing with featured carousel |
 | `/blog/:slug` | Individual blog post |
 | `/blog/series/:slug` | Blog series page |
+| `/preview/:slug` | Content preview (draft, via Preview API) |
 | `/contact` | Contact page |
 | `/privacy` | Privacy policy |
 | `/cookies` | Cookie policy |
