@@ -161,6 +161,18 @@ export const onRequest: PagesFunction = async (context) => {
   // Get base URL from CF_PAGES_URL or construct from request
   const baseUrl = (env as any).CF_PAGES_URL || `${url.protocol}//${url.host}`;
 
+  // Determine if this is a blog post route and check existence
+  let blogPostNotFound = false;
+  if (path.startsWith('/blog/') && path !== '/blog/') {
+    const slug = path.replace('/blog/', '').replace(/\/$/, '');
+    if (slug.length > 0 && !slug.startsWith('series')) {
+      const blogPost = await fetchBlogPost(slug, env);
+      if (!blogPost) {
+        blogPostNotFound = true;
+      }
+    }
+  }
+
   // Get original HTML and inject meta tags + nonce
   let html = await response.text();
   const metaTags = await generateMetaTags(baseUrl, path, env);
@@ -183,7 +195,8 @@ export const onRequest: PagesFunction = async (context) => {
   }
 
   return new Response(html, {
-    status: response.status,
+    status: blogPostNotFound ? 404 : response.status,
     headers,
   });
+};
 };
