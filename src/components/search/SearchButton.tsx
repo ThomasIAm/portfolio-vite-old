@@ -28,10 +28,10 @@ export function SearchButton() {
         onClick={() => setOpen(true)}
         className={cn(
           "fixed z-40 shadow-lg hover-lift",
+          // Mobile: bottom-left to avoid overlap with scroll-to-top
+          "bottom-20 left-6 h-12 w-12 rounded-full",
           // Desktop: bottom-right corner
-          "bottom-24 right-6 h-12 w-12 rounded-full",
-          // Mobile: above navigation, centered-right
-          "md:bottom-8 md:right-8 md:h-11 md:w-11",
+          "md:bottom-8 md:right-8 md:left-auto md:h-11 md:w-11",
           // Styling
           "bg-background/95 backdrop-blur-sm border-border/50",
           "hover:bg-primary hover:text-primary-foreground hover:border-primary",
