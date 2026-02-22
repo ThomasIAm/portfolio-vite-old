@@ -20,6 +20,5 @@ CF_PAGES_URL = "https://tvdn.me"
 CONTENTFUL_SPACE_ID = "1u3dqblumu33"
 VITE_ENABLE_CF_IMAGE_TRANSFORM = "false"
 
-[[ai_search]]
-binding = "AI_SEARCH"
-project_id = "plain-butterfly-1d3f/"
+[[ai]]
+binding = "AI"
