@@ -20,5 +20,5 @@ CF_PAGES_URL = "https://tvdn.me"
 CONTENTFUL_SPACE_ID = "1u3dqblumu33"
 VITE_ENABLE_CF_IMAGE_TRANSFORM = "false"
 
-[[ai]]
+[ai]
 binding = "AI"
