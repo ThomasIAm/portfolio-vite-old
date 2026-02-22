@@ -18,20 +18,6 @@ A modern, responsive portfolio website showcasing my work as a Lead Cyber Securi
 - **Forms:** React Hook Form + Zod 4
 - **Date Utilities:** date-fns 4
 
-## ⚙️ Tailwind CSS v4 Configuration
-
-This project uses Tailwind CSS v4 with the following setup:
-
-- **PostCSS Plugin:** `@tailwindcss/postcss` configured directly in `vite.config.ts`
-- **CSS Import:** Uses `@import "tailwindcss"` instead of legacy `@tailwind` directives
-- **Config Reference:** CSS references the config via `@config "../tailwind.config.ts"`
-
-### Key Changes from v3
-
-1. **Import Syntax:** The CSS now uses `@import "tailwindcss"` at the top
-2. **Config Directive:** Added `@config "../tailwind.config.ts"` to reference the Tailwind config
-3. **PostCSS Setup:** PostCSS is configured in `vite.config.ts` using the `css.postcss.plugins` option
-
 ## 📦 Getting Started
 
 ### Prerequisites
