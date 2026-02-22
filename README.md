@@ -43,12 +43,12 @@ npm run dev
 
 ### Environment Variables
 
-Create a `.env` file based on `.env.example`:
+Create a `dev.env` file based on `dev.env.example`:
 
 ```env
 CONTENTFUL_SPACE_ID=your_space_id
 CONTENTFUL_ACCESS_TOKEN=your_access_token
-CONTENTFUL_PREVIEW_TOKEN=your_preview_token  # Optional: enables draft content
+CONTENTFUL_PREVIEW_TOKEN=your_preview_token
 ```
 
 ## 🏗️ Build
