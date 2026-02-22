@@ -97,20 +97,6 @@ This project uses Cloudflare Pages Functions for:
 
 These are automatically deployed when you deploy to Cloudflare Pages.
 
-### Cloudflare AI Search Setup
-
-The site includes an AI-powered search feature. To enable it:
-
-1. Create an AI Search project in the Cloudflare dashboard
-2. Add the `AI_SEARCH` binding to your `wrangler.toml` or Cloudflare Pages settings:
-   ```toml
-   [[ai_search]]
-   binding = "AI_SEARCH"
-   project_id = "your-ai-search-project-id"
-   ```
-3. Index your content in the AI Search project
-4. The search modal is accessible via the floating search button or `Ctrl+K` / `⌘K`
-
 ### API Documentation
 
 The API is documented using OpenAPI 3.0.3 specification:
