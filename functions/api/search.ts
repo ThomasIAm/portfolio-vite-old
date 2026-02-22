@@ -4,8 +4,10 @@
  */
 
 interface Env {
-  AI_SEARCH: {
-    search: (query: string, options?: { limit?: number }) => Promise<SearchResponse>;
+  AI: {
+    autorag: (name: string) => {
+      search: (params: { query: string; max_num_results?: number }) => Promise<SearchResponse>;
+    };
   };
 }
 
@@ -58,9 +60,9 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     );
   }
 
-  if (!env.AI_SEARCH) {
+  if (!env.AI) {
     return new Response(
-      JSON.stringify({ error: 'AI_SEARCH binding not configured' }),
+      JSON.stringify({ error: 'AI binding not configured' }),
       {
         status: 500,
         headers: {
@@ -73,7 +75,10 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
   try {
     const limit = parseInt(url.searchParams.get('limit') || '10', 10);
-    const results = await env.AI_SEARCH.search(query, { limit });
+    const results = await env.AI.autorag('plain-butterfly-1d3f').search({
+      query,
+      max_num_results: limit,
+    });
 
     return new Response(JSON.stringify(results), {
       headers: {
