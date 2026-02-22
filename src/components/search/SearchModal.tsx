@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, X, FileText, Loader2, Sparkles } from 'lucide-react';
+import { Search, CircleX, FileText, Loader2, Sparkles } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { useAISearch, type SearchResult } from '@/hooks/useAISearch';
@@ -104,7 +104,7 @@ export function SearchModal({ open, onOpenChange }: SearchModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent 
-        className="sm:max-w-xl p-0 gap-0 overflow-hidden"
+        className="sm:max-w-xl p-0 gap-0 overflow-hidden [&>button:last-child]:hidden"
         onKeyDown={handleKeyDown}
       >
         <VisuallyHidden>
@@ -125,8 +125,9 @@ export function SearchModal({ open, onOpenChange }: SearchModalProps) {
             <button
               onClick={() => setQuery('')}
               className="p-1.5 rounded-md hover:bg-muted transition-colors"
+              aria-label="Clear search"
             >
-              <X className="h-4 w-4 text-muted-foreground" />
+              <CircleX className="h-4 w-4 text-muted-foreground" />
             </button>
           )}
         </div>
