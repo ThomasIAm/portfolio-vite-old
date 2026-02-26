@@ -1,23 +1,69 @@
-import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { CodeBlock } from "../CodeBlock";
 
+// Mock shiki
+vi.mock("shiki", () => ({
+  createHighlighter: vi.fn().mockResolvedValue({
+    codeToHtml: vi.fn().mockReturnValue(
+      '<pre class="shiki"><code><span class="line">const x = 1;</span></code></pre>'
+    ),
+  }),
+}));
+
+// Mock clipboard
+beforeEach(() => {
+  Object.assign(navigator, {
+    clipboard: { writeText: vi.fn().mockResolvedValue(undefined) },
+  });
+});
+
 describe("CodeBlock", () => {
-  it("renders code content", () => {
+  it("renders a copy button", () => {
     render(<CodeBlock code="const x = 1;" language="typescript" />);
-    expect(screen.getByText(/const/)).toBeInTheDocument();
+    expect(screen.getByLabelText("Copy code")).toBeInTheDocument();
   });
 
-  it("renders a pre element", () => {
-    const { container } = render(<CodeBlock code="line1\nline2\nline3" language="javascript" />);
-    const pre = container.querySelector("pre");
-    expect(pre).toBeInTheDocument();
-    expect(pre?.textContent).toContain("line1");
-    expect(pre?.textContent).toContain("line2");
+  it("displays language label in header", () => {
+    render(<CodeBlock code="const x = 1;" language="typescript" />);
+    expect(screen.getByText("TypeScript")).toBeInTheDocument();
+  });
+
+  it("displays filename when provided", () => {
+    render(<CodeBlock code="const x = 1;" language="typescript" filename="config.ts" />);
+    expect(screen.getByText("config.ts")).toBeInTheDocument();
+  });
+
+  it("renders terminal mode with prompt symbols", async () => {
+    render(<CodeBlock code="npm install shiki" terminal />);
+    await waitFor(() => {
+      expect(screen.getByText("$")).toBeInTheDocument();
+    });
+  });
+
+  it("renders macOS dots in terminal mode", () => {
+    const { container } = render(<CodeBlock code="ls" terminal />);
+    const dots = container.querySelectorAll(".rounded-full");
+    expect(dots.length).toBe(3);
+  });
+
+  it("copies code to clipboard on click", async () => {
+    const user = userEvent.setup();
+    render(<CodeBlock code="const x = 1;" language="typescript" />);
+    await user.click(screen.getByLabelText("Copy code"));
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith("const x = 1;");
+  });
+
+  it("shows shiki-highlighted HTML after loading", async () => {
+    render(<CodeBlock code="const x = 1;" language="typescript" />);
+    await waitFor(() => {
+      expect(screen.getByText("const x = 1;")).toBeInTheDocument();
+    });
   });
 
   it("defaults to typescript language", () => {
-    const { container } = render(<CodeBlock code="const x = 1;" />);
-    expect(container.querySelector("pre")).toBeInTheDocument();
+    render(<CodeBlock code="const x = 1;" />);
+    expect(screen.getByText("TypeScript")).toBeInTheDocument();
   });
 });
