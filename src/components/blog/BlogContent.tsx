@@ -372,10 +372,18 @@ export function BlogContent({ content }: BlogContentProps) {
               );
             }
 
+            // Parse language and meta: e.g. "language-bash:title=install.sh"
+            const fullMatch = /language-([^:]+)(?::title=(.+))?/.exec(className || "");
+            const lang = fullMatch?.[1] ?? match[1];
+            const filename = fullMatch?.[2];
+            const isTerminal = ["terminal", "console", "shell"].includes(lang);
+
             return (
               <CodeBlock
                 code={String(children).replace(/\n$/, "")}
-                language={match[1]}
+                language={isTerminal ? "bash" : lang}
+                filename={filename}
+                terminal={isTerminal}
               />
             );
           },
