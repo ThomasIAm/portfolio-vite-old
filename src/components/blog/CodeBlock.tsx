@@ -111,18 +111,26 @@ export function CodeBlock({
     getHighlighter().then((highlighter) => {
       if (cancelled) return;
 
-      // Check if language is loaded, fall back to plaintext
-      const loadedLangs = highlighter.getLoadedLanguages();
-      const lang = loadedLangs.includes(language) ? language : "text";
-
-      const result = highlighter.codeToHtml(trimmedCode, {
-        lang,
-        themes: {
-          light: "github-light",
-          dark: "github-dark",
-        },
-      });
-      setHtml(result);
+      try {
+        const result = highlighter.codeToHtml(trimmedCode, {
+          lang: language,
+          themes: {
+            light: "github-light",
+            dark: "github-dark",
+          },
+        });
+        setHtml(result);
+      } catch {
+        // Language not loaded, fall back to plaintext
+        const result = highlighter.codeToHtml(trimmedCode, {
+          lang: "text",
+          themes: {
+            light: "github-light",
+            dark: "github-dark",
+          },
+        });
+        setHtml(result);
+      }
     });
 
     return () => {
