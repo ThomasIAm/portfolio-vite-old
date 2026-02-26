@@ -1,7 +1,16 @@
-import { describe, it, expect } from "vitest";
-import { screen } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
+import { screen, waitFor } from "@testing-library/react";
 import { renderWithProviders } from "@/test/test-utils";
 import { BlogContent } from "../BlogContent";
+
+// Mock shiki so code blocks render synchronously
+vi.mock("shiki", () => ({
+  createHighlighter: vi.fn().mockResolvedValue({
+    codeToHtml: vi.fn().mockImplementation((code: string) =>
+      `<pre class="shiki"><code><span class="line">${code}</span></code></pre>`
+    ),
+  }),
+}));
 
 describe("BlogContent", () => {
   it("renders markdown headings", () => {
@@ -25,7 +34,6 @@ describe("BlogContent", () => {
 
   it("renders list content", () => {
     const { container } = renderWithProviders(<BlogContent content="- Apple\n- Banana" />);
-    // react-markdown may render lists differently; just check text is present
     expect(container.textContent).toContain("Apple");
     expect(container.textContent).toContain("Banana");
   });
@@ -41,11 +49,21 @@ describe("BlogContent", () => {
     expect(screen.getByText("console.log")).toBeInTheDocument();
   });
 
-  it("renders code blocks", () => {
+  it("renders code blocks with shiki", async () => {
     renderWithProviders(
       <BlogContent content={'```typescript\nconst x = 1;\n```'} />
     );
-    expect(screen.getByText(/const/)).toBeInTheDocument();
+    // Code block is async (shiki loads), wait for it
+    await waitFor(() => {
+      expect(screen.getByText(/const x = 1/)).toBeInTheDocument();
+    });
+  });
+
+  it("renders code block with copy button", () => {
+    renderWithProviders(
+      <BlogContent content={'```typescript\nconst x = 1;\n```'} />
+    );
+    expect(screen.getByLabelText("Copy code")).toBeInTheDocument();
   });
 
   it("renders blockquotes", () => {
@@ -66,5 +84,13 @@ describe("BlogContent", () => {
     renderWithProviders(<BlogContent content="## Test Heading" />);
     const button = screen.getByLabelText("Copy link to heading");
     expect(button).toBeInTheDocument();
+  });
+
+  it("renders terminal-style code blocks", () => {
+    renderWithProviders(
+      <BlogContent content={'```terminal\nnpm install shiki\n```'} />
+    );
+    // Terminal mode should show macOS dots and prompt
+    expect(screen.getByText("$")).toBeInTheDocument();
   });
 });

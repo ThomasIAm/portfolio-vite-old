@@ -21,7 +21,7 @@ const dependencies: Dependency[] = [
   { name: "Lucide React", url: "https://lucide.dev", license: "ISC", description: "Beautiful & consistent icon toolkit" },
   { name: "Contentful", url: "https://contentful.com", license: "MIT", description: "Headless CMS for content management" },
   { name: "React Markdown", url: "https://github.com/remarkjs/react-markdown", license: "MIT", description: "Markdown component for React" },
-  { name: "Prism React Renderer", url: "https://github.com/FormidableLabs/prism-react-renderer", license: "MIT", description: "Syntax highlighting for code blocks" },
+  { name: "Shiki", url: "https://shiki.style", license: "MIT", description: "Beautiful syntax highlighting powered by VS Code's TextMate grammars" },
   { name: "Unhead (React)", url: "https://unhead.unjs.io", license: "MIT", description: "Document head manager for React" },
   { name: "Cloudflare AI Search", url: "https://developers.cloudflare.com/ai-search/", license: "Proprietary", description: "AI-powered semantic search for site content" },
   { name: "Contentful Preview API", url: "https://www.contentful.com/developers/docs/references/content-preview-api/", license: "Proprietary", description: "Draft content preview for unpublished entries" },
