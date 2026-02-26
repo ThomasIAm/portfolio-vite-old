@@ -4,6 +4,7 @@
 // Base CSP directives
 export const CSP_DIRECTIVES: Record<string, string[]> = {
   "default-src": ["'self'"],
+  "manifest-src": ["'self'", "https://*.cloudflareaccess.com"],
   "script-src": ["'strict-dynamic'"],
   "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
   "font-src": ["'self'", "https://fonts.gstatic.com"],
