@@ -133,3 +133,37 @@
     box-shadow: var(--shadow-hover);
   }
 }
+
+/* Shiki dual-theme support */
+.shiki,
+.shiki span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+.dark .shiki,
+.dark .shiki span {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+}
+
+/* Terminal prompt styling */
+.terminal-prompt {
+  color: hsl(var(--accent));
+  user-select: none;
+  margin-right: 0.5rem;
+  font-weight: 600;
+}
+
+.terminal-pre {
+  background: transparent !important;
+}
+
+.terminal-pre code {
+  display: flex;
+  flex-direction: column;
+}
+
+.terminal-pre .line {
+  display: block;
+}

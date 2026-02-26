@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import ScrollToTop from "./components/ScrollToTop";
+import { SearchButton } from "./components/search/SearchButton";
 import Index from "./pages/Index";
 
 // Lazy load non-critical pages
@@ -17,6 +18,7 @@ const Series = lazy(() => import("./pages/Series"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Cookies = lazy(() => import("./pages/Cookies"));
 const Privacy = lazy(() => import("./pages/Privacy"));
+const Preview = lazy(() => import("./pages/Preview"));
 const Notice = lazy(() => import("./pages/Notice"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
@@ -35,6 +37,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <ScrollToTop />
+          <SearchButton />
           <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route path="/" element={<Index />} />
@@ -46,6 +49,7 @@ const App = () => (
               <Route path="/contact" element={<Contact />} />
               <Route path="/cookies" element={<Cookies />} />
               <Route path="/privacy" element={<Privacy />} />
+              <Route path="/preview/:slug" element={<Preview />} />
               <Route path="/notice" element={<Notice />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

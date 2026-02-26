@@ -144,6 +144,26 @@ const certifications: Certification[] = [
       "https://university.cloudflare.com/credential/verify/b9b183ab-ff65-4c24-bc79-852aa73a08f4",
   },
   {
+    name: "Cloudflare Application Security Advanced",
+    year: "2026",
+    categories: ["Cloudflare"],
+    logo: "/assets/certifications/appsecadv.png",
+    proofUrl:
+      "https://university.cloudflare.com/credential/verify/a52c3432-e2a9-445b-9ee6-e01e63484116",
+    infoUrl:
+      "https://university.cloudflare.com/credential/verify/a52c3432-e2a9-445b-9ee6-e01e63484116",
+  },
+  {
+    name: "Cloudflare Application Security Fundamentals",
+    year: "2025",
+    categories: ["Cloudflare"],
+    logo: "/assets/certifications/appsecfund.png",
+    proofUrl:
+      "https://university.cloudflare.com/credential/verify/dc1f34c3-dc59-11f0-815e-42010a400fdb",
+    infoUrl:
+      "https://university.cloudflare.com/credential/verify/dc1f34c3-dc59-11f0-815e-42010a400fdb",
+  },
+  {
     name: "Cloudflare Accredited Configuration Engineer",
     year: "2025",
     categories: ["Cloudflare"],
@@ -152,6 +172,16 @@ const certifications: Certification[] = [
       "https://university.cloudflare.com/credential/verify/446f6fad-4737-477d-8db0-f425a704c134",
     infoUrl:
       "https://university.cloudflare.com/credential/verify/446f6fad-4737-477d-8db0-f425a704c134",
+  },
+  {
+    name: "Cloudflare Developers Platform Fundamentals",
+    year: "2025",
+    categories: ["Cloudflare"],
+    logo: "/assets/certifications/devplatfund.png",
+    proofUrl:
+      "https://university.cloudflare.com/credential/verify/dc1f3413-dc59-11f0-815e-42010a400fdb",
+    infoUrl:
+      "https://university.cloudflare.com/credential/verify/dc1f3413-dc59-11f0-815e-42010a400fdb",
   },
   {
     name: "Cloudflare Accredited MSSP - Customer Success",

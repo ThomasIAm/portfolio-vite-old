@@ -10,26 +10,13 @@ A modern, responsive portfolio website showcasing my work as a Lead Cyber Securi
 - **UI Components:** shadcn/ui (Radix UI primitives)
 - **Head Management:** Unhead (`@unhead/react`)
 - **Content Management:** Contentful CMS
+- **Search:** Cloudflare AI Search (semantic search via Worker binding)
 - **Routing:** React Router 7
 - **Data Fetching:** TanStack Query
 - **Carousel:** Embla Carousel
 - **Charts:** Recharts 3
 - **Forms:** React Hook Form + Zod 4
 - **Date Utilities:** date-fns 4
-
-## ⚙️ Tailwind CSS v4 Configuration
-
-This project uses Tailwind CSS v4 with the following setup:
-
-- **PostCSS Plugin:** `@tailwindcss/postcss` configured directly in `vite.config.ts`
-- **CSS Import:** Uses `@import "tailwindcss"` instead of legacy `@tailwind` directives
-- **Config Reference:** CSS references the config via `@config "../tailwind.config.ts"`
-
-### Key Changes from v3
-
-1. **Import Syntax:** The CSS now uses `@import "tailwindcss"` at the top
-2. **Config Directive:** Added `@config "../tailwind.config.ts"` to reference the Tailwind config
-3. **PostCSS Setup:** PostCSS is configured in `vite.config.ts` using the `css.postcss.plugins` option
 
 ## 📦 Getting Started
 
@@ -56,12 +43,12 @@ npm run dev
 
 ### Environment Variables
 
-Create a `.env` file based on `.env.example`:
+Create a `dev.env` file based on `dev.env.example`:
 
 ```env
 CONTENTFUL_SPACE_ID=your_space_id
 CONTENTFUL_ACCESS_TOKEN=your_access_token
-CONTENTFUL_PREVIEW_TOKEN=your_preview_token  # Optional: enables draft content
+CONTENTFUL_PREVIEW_TOKEN=your_preview_token
 ```
 
 ## 🏗️ Build
@@ -94,13 +81,15 @@ Add these environment variables in Cloudflare Pages dashboard under **Settings �
 |----------|-------------|----------|---------|
 | `CONTENTFUL_SPACE_ID` | Your Contentful space ID | Yes | 1a1aaaaaaa11 |
 | `CONTENTFUL_ACCESS_TOKEN` | Contentful Delivery API token | Yes | AA1AA1aaA1aAAA11aAaA11AA1AaAa1a1AaAAaAAAAaA |
-| `CONTENTFUL_PREVIEW_TOKEN` | Contentful Preview API token | No | AA1AA1aaA1aAAA11aAaA11AA1AaAa1a1AaAAaAAAAaA |
+| `CONTENTFUL_PREVIEW_TOKEN` | Contentful Preview API token (enables `/preview/:slug` route) | No | AA1AA1aaA1aAAA11aAaA11AA1AaAa1a1AaAAaAAAAaA |
 | `CF_PAGES_URL` | Your (custom) Pages domain | No | https://tvdn.me |
 | `VITE_ENABLE_CF_IMAGE_TRANSFORM` | If Cloudflare Image Transform should be enabled | No | true |
 
 ### Cloudflare Functions
 
 This project uses Cloudflare Pages Functions for:
+- **AI Search API** (`functions/api/search.ts`) - Semantic search using Cloudflare AI Search Worker binding
+- **Content Preview API** (`functions/api/preview.ts`) - Fetches draft content from Contentful Preview API
 - Dynamic OG image generation (`functions/og/`)
 - OG metadata fetching API (`functions/api/og-metadata.ts`)
 - Dynamic sitemap generation (`functions/sitemap.xml.ts`)
@@ -155,6 +144,7 @@ functions/
 | `/blog` | Blog listing with featured carousel |
 | `/blog/:slug` | Individual blog post |
 | `/blog/series/:slug` | Blog series page |
+| `/preview/:slug` | Content preview (draft, via Preview API) |
 | `/contact` | Contact page |
 | `/privacy` | Privacy policy |
 | `/cookies` | Cookie policy |
