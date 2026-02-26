@@ -25,3 +25,6 @@ binding = "AI"
 
 [dev]
 local_protocol = "https"
+
+[env.production.ai]
+binding = "AI"
