@@ -74,7 +74,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   }
 
   try {
-    const limit = parseInt(url.searchParams.get('limit') || '10', 10);
+    const limit = Number.parseInt(url.searchParams.get('limit') || '10', 10);
     const results = await env.AI.autorag('plain-butterfly-1d3f').search({
       query,
       max_num_results: limit,

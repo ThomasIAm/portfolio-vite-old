@@ -1,10 +1,10 @@
-import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, expect } from "vitest";
+import { render } from "@testing-library/react";
 import { UnheadProvider, createHead } from "@unhead/react/client";
 import { MemoryRouter } from "react-router-dom";
-import { SEO } from "../SEO";
+import { SEO as Seo } from "../SEO";
 
-function Wrapper({ children }: { children: React.ReactNode }) {
+function Wrapper({ children }: Readonly<{ children: React.ReactNode }>) {
   const head = createHead();
   return (
     <UnheadProvider head={head}>
@@ -16,14 +16,14 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 describe("SEO component", () => {
   it("renders without crashing", () => {
     expect(() =>
-      render(<SEO title="Test" description="Test description" />, { wrapper: Wrapper })
+      render(<Seo title="Test" description="Test description" />, { wrapper: Wrapper })
     ).not.toThrow();
   });
 
   it("renders with all props", () => {
     expect(() =>
       render(
-        <SEO
+        <Seo
           title="Test Article"
           description="Article description"
           canonical="/blog/test"
@@ -41,7 +41,7 @@ describe("SEO component", () => {
 
   it("renders with minimal props", () => {
     expect(() =>
-      render(<SEO />, { wrapper: Wrapper })
+      render(<Seo />, { wrapper: Wrapper })
     ).not.toThrow();
   });
 });

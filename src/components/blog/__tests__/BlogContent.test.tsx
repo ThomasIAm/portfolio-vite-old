@@ -115,4 +115,25 @@ describe("BlogContent", () => {
       screen.getByText("Install dependencies for local dev")
     ).toBeInTheDocument();
   });
+
+  it("parses unquoted title up to next metadata key", () => {
+    renderWithProviders(
+      <BlogContent
+        content={"```terminal title=Install dependencies for local dev linenos=true\nnpm install\n```"}
+      />
+    );
+    expect(
+      screen.getByText("Install dependencies for local dev")
+    ).toBeInTheDocument();
+  });
+
+  it("handles large metadata strings without backtracking blowups", () => {
+    const padding = Array.from({ length: 6000 }, () => "aaaaaaaaaa").join(" ");
+    renderWithProviders(
+      <BlogContent
+        content={`\`\`\`terminal title=Fast linenos=true ${padding}\nnpm install\n\`\`\``}
+      />
+    );
+    expect(screen.getByText("Fast")).toBeInTheDocument();
+  });
 });

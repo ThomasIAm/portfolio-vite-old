@@ -17,6 +17,12 @@ interface BlogPostFields {
   publishedDate: string;
 }
 
+interface Env {
+  CONTENTFUL_SPACE_ID?: string;
+  CONTENTFUL_ACCESS_TOKEN?: string;
+  CF_PAGES_URL?: string;
+}
+
 interface ContentfulResponse {
   items: Array<{
     fields: BlogPostFields;
@@ -32,7 +38,7 @@ function generateNonce(): string {
 
 async function fetchBlogPost(
   slug: string,
-  env: any,
+  env: Env,
 ): Promise<BlogPostFields | null> {
   const spaceId = env.CONTENTFUL_SPACE_ID;
   const accessToken = env.CONTENTFUL_ACCESS_TOKEN;
@@ -66,7 +72,7 @@ interface RouteMetadata {
 
 async function getRouteMetadata(
   path: string,
-  env: any,
+  env: Env,
 ): Promise<RouteMetadata> {
   // Check for exact match first
   if (path in ROUTE_METADATA) {
@@ -102,7 +108,7 @@ async function getRouteMetadata(
 async function generateMetaTags(
   baseUrl: string,
   path: string,
-  env: any,
+  env: Env,
 ): Promise<string> {
   const metadata = await getRouteMetadata(path, env);
   const { title, description, type, keywords } = metadata;
@@ -153,7 +159,7 @@ function injectNonceIntoScripts(html: string, nonce: string): string {
   return html;
 }
 
-export const onRequest: PagesFunction = async (context) => {
+export const onRequest: PagesFunction<Env> = async (context) => {
   const { request, next, env } = context;
   const url = new URL(request.url);
   const path = url.pathname;
@@ -180,7 +186,7 @@ export const onRequest: PagesFunction = async (context) => {
   const nonce = generateNonce();
 
   // Get base URL from CF_PAGES_URL or construct from request
-  const baseUrl = (env as any).CF_PAGES_URL || `${url.protocol}//${url.host}`;
+  const baseUrl = env.CF_PAGES_URL || `${url.protocol}//${url.host}`;
 
   // Determine if this is a blog post route and check existence
   let blogPostNotFound = false;

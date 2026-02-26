@@ -18,7 +18,7 @@ function getResultTitle(result: SearchResult): string {
   const filename = result.filename || '';
   const name = filename.split('/').pop() || filename;
   // Remove extension and format nicely
-  return name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+  return name.replace(/\.[^/.]+$/, '').replaceAll('-', ' ').replaceAll('_', ' ');
 }
 
 // Helper to get the text snippet
@@ -46,12 +46,30 @@ function getRouteFromResult(result: SearchResult): string | null {
   return null;
 }
 
-export function SearchModal({ open, onOpenChange }: SearchModalProps) {
+export function SearchModal({ open, onOpenChange }: Readonly<SearchModalProps>) {
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const { results, isLoading, error, search, clearResults } = useAISearch();
+
+  const handleResultClick = useCallback((result: SearchResult) => {
+    const route = getRouteFromResult(result);
+    if (route) {
+      navigate(route);
+      onOpenChange(false);
+    }
+  }, [navigate, onOpenChange]);
+
+  const handleDialogOpenChange = useCallback((nextOpen: boolean) => {
+    if (nextOpen) {
+      setQuery('');
+      setSelectedIndex(0);
+      clearResults();
+      setTimeout(() => inputRef.current?.focus(), 100);
+    }
+    onOpenChange(nextOpen);
+  }, [clearResults, onOpenChange]);
 
   // Debounced search
   useEffect(() => {
@@ -65,17 +83,6 @@ export function SearchModal({ open, onOpenChange }: SearchModalProps) {
 
     return () => clearTimeout(timeoutId);
   }, [query, search, clearResults]);
-
-  // Reset state when modal opens
-  useEffect(() => {
-    if (open) {
-      setQuery('');
-      setSelectedIndex(0);
-      clearResults();
-      // Focus input after modal animation
-      setTimeout(() => inputRef.current?.focus(), 100);
-    }
-  }, [open, clearResults]);
 
   // Keyboard navigation
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
@@ -91,18 +98,10 @@ export function SearchModal({ open, onOpenChange }: SearchModalProps) {
     } else if (e.key === 'Escape') {
       onOpenChange(false);
     }
-  }, [results, selectedIndex, onOpenChange]);
-
-  const handleResultClick = (result: SearchResult) => {
-    const route = getRouteFromResult(result);
-    if (route) {
-      navigate(route);
-      onOpenChange(false);
-    }
-  };
+  }, [results, selectedIndex, onOpenChange, handleResultClick]);
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleDialogOpenChange}>
       <DialogContent 
         className="sm:max-w-xl p-0 gap-0 overflow-hidden [&>button:last-child]:hidden"
         onKeyDown={handleKeyDown}

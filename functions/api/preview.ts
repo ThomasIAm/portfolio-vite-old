@@ -104,8 +104,12 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       },
     });
   } catch (error) {
+    console.error('Preview API request failed:', error);
+    const message =
+      error instanceof Error ? error.message : 'Unknown preview fetch error';
+
     return new Response(
-      JSON.stringify({ error: 'Failed to fetch preview content' }),
+      JSON.stringify({ error: 'Failed to fetch preview content', message }),
       { status: 500, headers: corsHeaders }
     );
   }

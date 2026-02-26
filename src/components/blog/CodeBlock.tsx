@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { Copy, Check, Terminal } from "lucide-react";
 import { toast } from "sonner";
 
@@ -13,7 +13,7 @@ interface CodeBlockProps {
 let highlighterPromise: Promise<import("shiki").Highlighter> | null = null;
 
 function getHighlighter() {
-  if (!highlighterPromise) {
+  if (highlighterPromise === null) {
     highlighterPromise = import("shiki").then((shiki) =>
       shiki.createHighlighter({
         themes: ["github-dark", "github-light"],
@@ -81,30 +81,36 @@ export function CodeBlock({
   language = "typescript",
   filename,
   terminal = false,
-}: CodeBlockProps) {
+}: Readonly<CodeBlockProps>) {
   const [html, setHtml] = useState<string>("");
   const [copied, setCopied] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const trimmedCode = code.trim();
   const displayLang = LANG_LABELS[language] ?? language;
+  const terminalHtml = useMemo(() => {
+    if (!terminal) {
+      return "";
+    }
+
+    const lines = trimmedCode.split("\n");
+    const escaped = lines
+      .map((line) => {
+        const escapedLine = line
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;");
+        return `<span class="line"><span class="terminal-prompt">$</span> ${escapedLine}</span>`;
+      })
+      .join("\n");
+
+    return `<pre class="shiki terminal-pre"><code>${escaped}</code></pre>`;
+  }, [terminal, trimmedCode]);
 
   useEffect(() => {
     let cancelled = false;
 
     if (terminal) {
-      // Terminal mode: no syntax highlighting, just styled lines
-      const lines = trimmedCode.split("\n");
-      const terminalHtml = lines
-        .map((line) => {
-          const escapedLine = line
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;");
-          return `<span class="line"><span class="terminal-prompt">$</span> ${escapedLine}</span>`;
-        })
-        .join("\n");
-      setHtml(`<pre class="shiki terminal-pre"><code>${terminalHtml}</code></pre>`);
       return;
     }
 
@@ -183,7 +189,7 @@ export function CodeBlock({
       {/* Code body */}
       <div
         className="code-block-body overflow-x-auto text-sm [&_pre]:p-4 [&_pre]:m-0 [&_pre]:bg-transparent [&_code]:bg-transparent [&_.line]:leading-relaxed"
-        dangerouslySetInnerHTML={{ __html: html }}
+        dangerouslySetInnerHTML={{ __html: terminal ? terminalHtml : html }}
       />
     </div>
   );
