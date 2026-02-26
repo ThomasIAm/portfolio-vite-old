@@ -96,6 +96,118 @@ interface BlogContentProps {
   content: string;
 }
 
+type CodeNodeLike = {
+  data?: { meta?: unknown };
+  meta?: unknown;
+  properties?: Record<string, unknown>;
+};
+
+type FencedCodeMeta = {
+  lang?: string;
+  code: string;
+  title?: string;
+};
+
+function extractCodeMeta(node: unknown): string | undefined {
+  const codeNode = node as CodeNodeLike | undefined;
+  const candidates = [
+    codeNode?.data?.meta,
+    codeNode?.meta,
+    codeNode?.properties?.metastring,
+    codeNode?.properties?.meta,
+    codeNode?.properties?.["data-meta"],
+  ];
+
+  for (const candidate of candidates) {
+    if (typeof candidate === "string" && candidate.trim()) {
+      return candidate.trim();
+    }
+  }
+
+  return undefined;
+}
+
+function parseTitleFromMeta(meta?: string): string | undefined {
+  if (!meta) return undefined;
+
+  const quotedMatch = /(?:^|\s)title=(?:"([^"]*)"|'([^']*)')/.exec(meta);
+  if (quotedMatch) {
+    const quotedTitle = quotedMatch[1] ?? quotedMatch[2];
+    return quotedTitle?.trim() || undefined;
+  }
+
+  const unquotedMatch = /(?:^|\s)title=([^]+?)(?=\s+[A-Za-z0-9_-]+=|$)/.exec(meta);
+  if (unquotedMatch) {
+    return unquotedMatch[1].trim() || undefined;
+  }
+
+  return undefined;
+}
+
+function normalizeTitle(value?: string): string | undefined {
+  if (!value) return undefined;
+  const trimmed = value.trim();
+  if (!trimmed) return undefined;
+  const unquoted =
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+      ? trimmed.slice(1, -1)
+      : trimmed;
+  return unquoted.trim() || undefined;
+}
+
+function extractFencedCodeMeta(markdown: string): FencedCodeMeta[] {
+  const lines = markdown.split("\n");
+  const blocks: FencedCodeMeta[] = [];
+  let activeFence:
+    | { marker: "`" | "~"; length: number; lang?: string; title?: string; lines: string[] }
+    | null = null;
+
+  for (const line of lines) {
+    if (!activeFence) {
+      const openMatch = /^\s*([`~]{3,})(.*)$/.exec(line);
+      if (!openMatch) continue;
+
+      const fence = openMatch[1];
+      const info = openMatch[2].trim();
+      const firstToken = info.split(/\s+/, 1)[0] || "";
+      const meta = info.slice(firstToken.length).trim();
+
+      const metaTitle = parseTitleFromMeta(meta);
+      const legacyLineMatch = /^([^:\s]+):title=(.+)$/.exec(info);
+      const legacyLineLang = legacyLineMatch?.[1];
+      const legacyLineTitle = normalizeTitle(legacyLineMatch?.[2]);
+      const legacyTokenMatch = /^([^:]+)(?::title=(.+))?$/.exec(firstToken);
+      const lang = legacyLineLang ?? legacyTokenMatch?.[1] ?? undefined;
+      const legacyTokenTitle = normalizeTitle(legacyTokenMatch?.[2]);
+
+      activeFence = {
+        marker: fence[0] as "`" | "~",
+        length: fence.length,
+        lang,
+        title: metaTitle ?? legacyLineTitle ?? legacyTokenTitle,
+        lines: [],
+      };
+      continue;
+    }
+
+    const closeRegex = new RegExp(`^\\s*${activeFence.marker}{${activeFence.length},}\\s*$`);
+    if (closeRegex.test(line)) {
+      blocks.push({
+        lang: activeFence.lang,
+        code: activeFence.lines.join("\n").replace(/\n$/, ""),
+        title: activeFence.title,
+      });
+      activeFence = null;
+      continue;
+    }
+
+    activeFence.lines.push(line);
+  }
+
+  return blocks;
+}
+
 // Generate a slug from heading text
 function generateSlug(children: React.ReactNode): string {
   const text = React.Children.toArray(children)
@@ -171,6 +283,19 @@ function isStandaloneLink(children: React.ReactNode): { href: string } | null {
 }
 
 export function BlogContent({ content }: BlogContentProps) {
+  const fencedCodeMeta = React.useMemo(() => extractFencedCodeMeta(content), [content]);
+  const fencedCodeTitleBySignature = React.useMemo(() => {
+    const map = new Map<string, string>();
+    for (const block of fencedCodeMeta) {
+      if (!block.title) continue;
+      const key = `${block.lang ?? ""}\u0000${block.code}`;
+      if (!map.has(key)) {
+        map.set(key, block.title);
+      }
+    }
+    return map;
+  }, [fencedCodeMeta]);
+
   return (
     <div className="prose-warm">
       <ReactMarkdown
@@ -270,12 +395,12 @@ export function BlogContent({ content }: BlogContentProps) {
             );
           },
           ul: ({ children }) => (
-            <ul className="list-disc list-inside text-muted-foreground mb-4 space-y-2">
+            <ul className="list-disc list-outside pl-6 text-muted-foreground mb-4 space-y-2 [&_ul]:mt-2 [&_ul]:mb-0 [&_ul]:pl-6 [&_ol]:mt-2 [&_ol]:mb-0 [&_ol]:pl-6">
               {children}
             </ul>
           ),
           ol: ({ children }) => (
-            <ol className="list-decimal list-inside text-muted-foreground mb-4 space-y-2">
+            <ol className="list-decimal list-outside pl-6 text-muted-foreground mb-4 space-y-2 [&_ul]:mt-2 [&_ul]:mb-0 [&_ul]:pl-6 [&_ol]:mt-2 [&_ol]:mb-0 [&_ol]:pl-6">
               {children}
             </ol>
           ),
@@ -360,9 +485,9 @@ export function BlogContent({ content }: BlogContentProps) {
               </blockquote>
             );
           },
-          code: ({ className, children }) => {
-            const match = /language-(\w+)/.exec(className || "");
-            const isInline = !match;
+          code: ({ className, children, node }) => {
+            const languageClassMatch = /\blanguage-([^\s]+)/.exec(className || "");
+            const isInline = !languageClassMatch;
 
             if (isInline) {
               return (
@@ -372,15 +497,32 @@ export function BlogContent({ content }: BlogContentProps) {
               );
             }
 
-            // Parse language and meta: e.g. "language-bash:title=install.sh"
-            const fullMatch = /language-([^:]+)(?::title=(.+))?/.exec(className || "");
-            const lang = fullMatch?.[1] ?? match[1];
-            const filename = fullMatch?.[2];
+            // Legacy inline syntax: "language-bash:title=install.sh"
+            const languageToken = languageClassMatch[1];
+            const legacyMatch = /^([^:]+)(?::title=(.+))?$/.exec(languageToken);
+            const lang = legacyMatch?.[1] ?? languageToken;
+            const decodedLegacyTitle = normalizeTitle(legacyMatch?.[2]);
+
+            // Preferred markdown meta syntax: ```bash title="Install dependencies for local dev"
+            const meta = extractCodeMeta(node);
+            const titleFromMeta = parseTitleFromMeta(meta);
+            const codeText = String(children).replace(/\n$/, "");
+            const fallbackTitle =
+              fencedCodeTitleBySignature.get(`${lang}\u0000${codeText}`) ??
+              fencedCodeTitleBySignature.get(`\u0000${codeText}`);
+            const legacyOrFallbackTitle =
+              fallbackTitle &&
+              decodedLegacyTitle &&
+              fallbackTitle.length > decodedLegacyTitle.length &&
+              fallbackTitle.startsWith(decodedLegacyTitle)
+                ? fallbackTitle
+                : decodedLegacyTitle ?? fallbackTitle;
+            const filename = titleFromMeta ?? legacyOrFallbackTitle;
             const isTerminal = ["terminal", "console", "shell"].includes(lang);
 
             return (
               <CodeBlock
-                code={String(children).replace(/\n$/, "")}
+                code={codeText}
                 language={isTerminal ? "bash" : lang}
                 filename={filename}
                 terminal={isTerminal}

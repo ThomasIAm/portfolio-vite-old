@@ -60,16 +60,19 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
     proxy: {
       "/api": {
-        target: "http://localhost:8788",
+        target: "https://localhost:8788",
         changeOrigin: true,
+        secure: false,
       },
       "/og": {
-        target: "http://localhost:8788",
+        target: "https://localhost:8788",
         changeOrigin: true,
+        secure: false,
       },
       "/sitemap.xml": {
-        target: "http://localhost:8788",
+        target: "https://localhost:8788",
         changeOrigin: true,
+        secure: false,
       },
     },
   },

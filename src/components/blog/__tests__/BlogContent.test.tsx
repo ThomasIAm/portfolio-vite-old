@@ -93,4 +93,26 @@ describe("BlogContent", () => {
     // Terminal mode should show macOS dots and prompt
     expect(screen.getByText("$")).toBeInTheDocument();
   });
+
+  it("renders code block title from markdown meta with spaces", () => {
+    renderWithProviders(
+      <BlogContent
+        content={'```terminal title="Install dependencies for local dev"\nnpm install\n```'}
+      />
+    );
+    expect(
+      screen.getByText("Install dependencies for local dev")
+    ).toBeInTheDocument();
+  });
+
+  it("renders code block title from legacy syntax with spaces", () => {
+    renderWithProviders(
+      <BlogContent
+        content={"```terminal:title=Install dependencies for local dev\nnpm install\n```"}
+      />
+    );
+    expect(
+      screen.getByText("Install dependencies for local dev")
+    ).toBeInTheDocument();
+  });
 });

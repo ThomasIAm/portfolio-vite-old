@@ -22,3 +22,6 @@ VITE_ENABLE_CF_IMAGE_TRANSFORM = "false"
 
 [ai]
 binding = "AI"
+
+[dev]
+local_protocol = "https"
