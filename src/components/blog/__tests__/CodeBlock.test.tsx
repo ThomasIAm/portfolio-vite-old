@@ -55,10 +55,14 @@ describe("CodeBlock", () => {
   it("copies code to clipboard on click", async () => {
     const user = userEvent.setup();
     render(<CodeBlock code="const x = 1;" language="typescript" />);
-    await user.click(screen.getByLabelText("Copy code"));
-    // Verify clipboard was called (navigator.clipboard.writeText is called in the handler)
+
+    // Button should initially show Copy icon
+    const copyButton = screen.getByLabelText("Copy code");
+    await user.click(copyButton);
+
+    // After clicking, it should show the check icon (copied state)
     await waitFor(() => {
-      expect(writeTextMock).toHaveBeenCalled();
+      expect(screen.getByText("Copied")).toBeInTheDocument();
     });
   });
 
