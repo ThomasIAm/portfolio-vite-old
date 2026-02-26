@@ -90,7 +90,7 @@ describe("BlogContent", () => {
     renderWithProviders(
       <BlogContent content={'```terminal\nnpm install shiki\n```'} />
     );
-    // Terminal mode should show prompt
-    expect(screen.getByText("Terminal")).toBeInTheDocument();
+    // Terminal mode should show macOS dots and prompt
+    expect(screen.getByText("$")).toBeInTheDocument();
   });
 });
