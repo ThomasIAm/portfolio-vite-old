@@ -13,9 +13,13 @@ vi.mock("shiki", () => ({
 }));
 
 // Mock clipboard
+const writeTextMock = vi.fn().mockResolvedValue(undefined);
 beforeEach(() => {
-  Object.assign(navigator, {
-    clipboard: { writeText: vi.fn().mockResolvedValue(undefined) },
+  writeTextMock.mockClear();
+  Object.defineProperty(navigator, "clipboard", {
+    value: { writeText: writeTextMock },
+    writable: true,
+    configurable: true,
   });
 });
 
@@ -52,7 +56,7 @@ describe("CodeBlock", () => {
     const user = userEvent.setup();
     render(<CodeBlock code="const x = 1;" language="typescript" />);
     await user.click(screen.getByLabelText("Copy code"));
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith("const x = 1;");
+    expect(writeTextMock).toHaveBeenCalledWith("const x = 1;");
   });
 
   it("shows shiki-highlighted HTML after loading", async () => {
