@@ -84,7 +84,7 @@ export function CodeBlock({
 }: CodeBlockProps) {
   const [html, setHtml] = useState<string>("");
   const [copied, setCopied] = useState(false);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const trimmedCode = code.trim();
   const displayLang = LANG_LABELS[language] ?? language;
