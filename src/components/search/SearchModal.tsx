@@ -18,7 +18,7 @@ function getResultTitle(result: SearchResult): string {
   const filename = result.filename || '';
   const name = filename.split('/').pop() || filename;
   // Remove extension and format nicely
-  return name.replace(/\.[^/.]+$/, '').replaceAll('-', ' ').replaceAll('_', ' ');
+  return name.replace(/\.[^/.]+$/, '').replace(/-/g, ' ').replace(/_/g, ' ');
 }
 
 // Helper to get the text snippet

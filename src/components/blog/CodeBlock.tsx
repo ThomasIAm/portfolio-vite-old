@@ -97,9 +97,9 @@ export function CodeBlock({
     const escaped = lines
       .map((line) => {
         const escapedLine = line
-          .replaceAll("&", "&amp;")
-          .replaceAll("<", "&lt;")
-          .replaceAll(">", "&gt;");
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
         return `<span class="line"><span class="terminal-prompt">$</span> ${escapedLine}</span>`;
       })
       .join("\n");

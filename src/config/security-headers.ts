@@ -5,7 +5,7 @@
 export const CSP_DIRECTIVES: Record<string, string[]> = {
   "default-src": ["'self'"],
   "manifest-src": ["'self'", "https://*.cloudflareaccess.com"],
-  "script-src": ["'strict-dynamic'"],
+  "script-src": ["'strict-dynamic'", "'wasm-unsafe-eval'"],
   "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
   "font-src": ["'self'", "https://fonts.gstatic.com"],
   "img-src": ["'self'", "https:", "data:"],
@@ -21,7 +21,7 @@ export function buildCSPHeader(nonce?: string): string {
   
   if (nonce) {
     // Add nonce to script-src
-    directives["script-src"] = ["'strict-dynamic'", `'nonce-${nonce}'`];
+    directives["script-src"] = ["'strict-dynamic'", "'wasm-unsafe-eval'", `'nonce-${nonce}'`];
   }
   
   return Object.entries(directives)
