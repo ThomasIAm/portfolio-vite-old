@@ -21,7 +21,7 @@ export function buildCSPHeader(nonce?: string): string {
   
   if (nonce) {
     // Add nonce to script-src
-    directives["script-src"] = ["'strict-dynamic'", `'nonce-${nonce}'`];
+    directives["script-src"] = ["'strict-dynamic'", "'wasm-unsafe-eval'", `'nonce-${nonce}'`];
   }
   
   return Object.entries(directives)
