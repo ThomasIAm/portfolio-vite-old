@@ -134,6 +134,26 @@ const certifications: Certification[] = [
       "https://university.cloudflare.com/credential/verify/260ad5dc-bb33-4fea-be51-266c8e80553e",
   },
   {
+    name: "Cloudflare One Advanced",
+    year: "2026",
+    categories: ["Cloudflare"],
+    logo: "/assets/certifications/cfoneadv.png",
+    proofUrl:
+      "https://university.cloudflare.com/credential/verify/8af04ea4-8023-4889-bbb3-e7b8a16343ba",
+    infoUrl:
+      "https://university.cloudflare.com/credential/verify/8af04ea4-8023-4889-bbb3-e7b8a16343ba",
+  },
+  {
+    name: "Cloudflare One Essentials",
+    year: "2026",
+    categories: ["Cloudflare"],
+    logo: "/assets/certifications/cfoneess.png",
+    proofUrl:
+      "https://university.cloudflare.com/credential/verify/6c07f560-f3a1-4392-81dd-0c44f28f2033",
+    infoUrl:
+      "https://university.cloudflare.com/credential/verify/6c07f560-f3a1-4392-81dd-0c44f28f2033",
+  },
+  {
     name: "Cloudflare Zero Trust Engineer",
     year: "2025",
     categories: ["Cloudflare"],
