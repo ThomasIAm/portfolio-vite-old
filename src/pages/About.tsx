@@ -326,13 +326,23 @@ const certifications: Certification[] = [
     colors: vendorColors.splunk,
   },
   {
+    name: "Phished AI Literacy",
+    year: "2026",
+    categories: ["Cybersecurity", "AI"],
+    logo: "/assets/certifications/phished-ai.svg",
+    proofUrl: "/assets/certifications/phished-ai-certificate.pdf",
+    infoUrl:
+      "https://info.phished.io/academy-roadmap-ai",
+    colors: vendorColors.phished,
+  },
+  {
     name: "Phished Gold Level - Cyber Resilience: Advanced",
     year: "2025",
     categories: ["Cybersecurity"],
     logo: "/assets/certifications/phished-gold.svg",
     proofUrl: "/assets/certifications/phished-gold.pdf",
     infoUrl:
-      "https://info.phished.io/_hcms/raw-resource?path=Academy%20Roadmap/Academy-roadmap-Gold-FEEDBACK.html&portalId=6615327&t=1713359362477&hs_preview_key=CtrNuUqBmKrAuk1LwanIuw&template_id=163886759038&hsLang=en",
+      "https://info.phished.io/phished-academy-gold",
     colors: vendorColors.phished,
   },
   {
