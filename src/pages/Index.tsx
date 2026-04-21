@@ -136,21 +136,6 @@ export default function Index() {
               className="flex-shrink-0"
             >
               <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-warm rounded-full blur-2xl opacity-20 animate-float" />
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-background/60 via-transparent to-transparent z-[1]" />
-                <a
-                  href="https://www.swoodroom.nl"
-                  target="_blank"
-                  rel="noopener"
-                  className="absolute left-4 bottom-4 text-xs text-muted-foreground hover:text-primary bg-background/80 px-2 py-0.5 rounded z-10 transition-colors"
-                >
-                  My partner Sanne ↗
-                </a>
-
-                <span className="absolute -right-2 bottom-8 text-xs font-semibold text-primary-foreground bg-primary px-2 py-1 rounded-full shadow-md z-10">
-                  Me
-                </span>
-
                 <OptimizedImage
                   src={profileImage}
                   alt="Thomas van den Nieuwenhoff"
