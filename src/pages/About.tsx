@@ -124,6 +124,16 @@ const categoryColors: Record<string, CertificationColors> = {
 const certifications: Certification[] = [
   // Cloudflare certifications
   {
+    name: "Cloudflare Partner Technical Advisory Board Member",
+    year: "2026",
+    categories: ["Cloudflare"],
+    logo: "/assets/certifications/cf.svg",
+    proofUrl:
+      "",
+    infoUrl:
+      "",
+  },
+  {
     name: "Cloudflare Accredited Services Architect",
     year: "2023",
     categories: ["Cloudflare"],
