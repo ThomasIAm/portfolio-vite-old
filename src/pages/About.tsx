@@ -232,7 +232,7 @@ const certifications: Certification[] = [
     name: "Cloudflare Developers Platform Fundamentals",
     year: "2025",
     categories: ["Cloudflare"],
-    logo: "/assets/certifications/devfund.png",
+    logo: "/assets/certifications/cfdevfund.png",
     proofUrl:
       "https://www.credly.com/badges/26640607-7db4-4770-b3c3-45ad50dab830/public_url",
     infoUrl:
