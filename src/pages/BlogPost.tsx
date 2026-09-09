@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import { SEO } from "@/components/seo/SEO";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { Card, CardContent } from "@/components/ui/card";
+import { buildSiteUrl, siteConfig } from "@/config/site";
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
@@ -80,17 +81,17 @@ export default function BlogPost() {
     dateModified: fields.modifiedDate,
     author: {
       "@type": "Person",
-      name: "Thomas van den Nieuwenhoff",
-      url: "https://tvdn.me",
+      name: siteConfig.name,
+      url: siteConfig.siteUrl,
     },
     publisher: {
       "@type": "Person",
-      name: "Thomas van den Nieuwenhoff",
-      url: "https://tvdn.me",
+      name: siteConfig.name,
+      url: siteConfig.siteUrl,
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://tvdn.me/blog/${fields.slug}`,
+      "@id": buildSiteUrl(`/blog/${fields.slug}`),
     },
   };
 

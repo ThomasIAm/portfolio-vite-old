@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { screen } from "@testing-library/react";
 import { renderWithProviders } from "@/test/test-utils";
 import Contact from "../Contact";
+import { siteConfig } from "@/config/site";
 
 describe("Contact page", () => {
   it("renders page title", () => {
@@ -11,9 +12,9 @@ describe("Contact page", () => {
 
   it("renders email contact", () => {
     renderWithProviders(<Contact />);
-    expect(screen.getByText("Work Email")).toBeInTheDocument();
-    const emailLink = screen.getByText("thomas.vandennieuwenhoff@salt-security.com").closest("a");
-    expect(emailLink).toHaveAttribute("href", "mailto:thomas.vandennieuwenhoff@salt-security.com");
+    expect(screen.getByText(siteConfig.contact.email.label)).toBeInTheDocument();
+    const emailLink = screen.getByText(siteConfig.contact.email.address).closest("a");
+    expect(emailLink).toHaveAttribute("href", `mailto:${siteConfig.contact.email.address}`);
   });
 
   it("renders LinkedIn contact", () => {
@@ -35,13 +36,13 @@ describe("Contact page", () => {
 
   it("renders location info", () => {
     renderWithProviders(<Contact />);
-    expect(screen.getByText("Based in the Netherlands")).toBeInTheDocument();
+    expect(screen.getByText(siteConfig.contact.location.label)).toBeInTheDocument();
   });
 
   it("renders CTA section with LinkedIn link", () => {
     renderWithProviders(<Contact />);
     const ctaLink = screen.getByText("Connect on LinkedIn").closest("a");
-    expect(ctaLink).toHaveAttribute("href", "https://linkedin.com/in/tvdn");
+    expect(ctaLink).toHaveAttribute("href", siteConfig.social.linkedin.href);
     expect(ctaLink).toHaveAttribute("target", "_blank");
   });
 });

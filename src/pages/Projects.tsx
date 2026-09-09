@@ -3,6 +3,7 @@ import { Layout } from "@/components/layout/Layout";
 import { AppWindow, Blocks, CloudCog, Code, ExternalLink, Github, Gitlab, LandPlot, Linkedin, LoaderPinwheel, Lock, Server, Shield, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/seo/SEO";
+import { siteConfig } from "@/config/site";
 
 const INITIAL_PROJECTS_COUNT = 6;
 
@@ -100,7 +101,7 @@ export default function Projects() {
     <Layout>
       <SEO
         title="Projects & Work"
-        description="Initiatives and projects led by Thomas van den Nieuwenhoff including Cloudflare Professional Services, OpenShift migrations, and IAM solutions."
+        description={siteConfig.seo.projectsDescription}
         canonical="/projects"
         keywords={["security projects", "Cloudflare consulting", "OpenShift migration", "IAM solutions", "cyber security portfolio"]}
       />

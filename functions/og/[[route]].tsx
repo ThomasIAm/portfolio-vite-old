@@ -1,12 +1,13 @@
 import React from "react";
 import { ImageResponse } from "@cloudflare/pages-plugin-vercel-og/api";
+import { siteConfig } from "../../src/config/site";
 
 export const onRequest: PagesFunction = async ({ request }) => {
   const url = new URL(request.url);
   
   // Extract parameters from URL
-  const title = url.searchParams.get("title") || "Thomas van den Nieuwenhoff";
-  const description = url.searchParams.get("description") || "Lead Cyber Security Consultant";
+  const title = url.searchParams.get("title") || siteConfig.name;
+  const description = url.searchParams.get("description") || siteConfig.role;
   const type = url.searchParams.get("type") || "website";
 
   // Construct absolute URL for the profile image
@@ -147,7 +148,7 @@ export const onRequest: PagesFunction = async ({ request }) => {
                 color: "#302823",
               }}
             >
-              Thomas van den Nieuwenhoff
+              {siteConfig.name}
             </span>
           </div>
 
@@ -173,7 +174,7 @@ export const onRequest: PagesFunction = async ({ request }) => {
                 color: "#7a706a",
               }}
             >
-              Cyber Security Consultant
+              {siteConfig.role}
             </span>
           </div>
         </div>

@@ -5,16 +5,18 @@ import { Button } from "@/components/ui/button";
 import { AnimatedSection } from "@/components/ui/animated-section";
 import { SEO } from "@/components/seo/SEO";
 import { OptimizedImage } from "@/components/ui/optimized-image";
-const profileImage = "/assets/profile.jpg";
+import { siteConfig } from "@/config/site";
+
+const profileImage = siteConfig.profileImage.src;
 const personStructuredData = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: "Thomas van den Nieuwenhoff",
-  url: "https://tvdn.me",
-  jobTitle: "Lead Cyber Security Consultant",
+  name: siteConfig.name,
+  url: siteConfig.siteUrl,
+  jobTitle: siteConfig.role,
   worksFor: {
     "@type": "Organization",
-    name: "SALT Cyber Security",
+    name: siteConfig.company.name,
   },
   knowsAbout: [
     "Cyber Security",
@@ -23,7 +25,7 @@ const personStructuredData = {
     "OpenShift",
     "DevSecOps",
   ],
-  sameAs: ["https://linkedin.com/in/tvdn", "https://github.com/tvdn"],
+  sameAs: siteConfig.sameAs,
 };
 const highlights = [
   {
@@ -88,8 +90,8 @@ export default function Index() {
   return (
     <Layout>
       <SEO
-        title="Thomas van den Nieuwenhoff | Lead Cyber Security Consultant"
-        description="Lead Cyber Security Consultant specializing in Cloudflare, Zero Trust, and OpenShift. Empowering businesses and teams in the digital realm."
+        title={`${siteConfig.name} | ${siteConfig.role}`}
+        description={siteConfig.seo.homeDescription}
         canonical="/"
         keywords={[
           "cyber security consultant",
@@ -111,10 +113,10 @@ export default function Index() {
             >
               <p className="text-primary font-medium mb-4">Hi there, I'm</p>
               <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
-                Thomas van den Nieuwenhoff
+                {siteConfig.name}
               </h1>
               <p className="text-xl text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0">
-                Lead Cyber Security Consultant with a passion for empowering
+                {siteConfig.role} with a passion for empowering
                 businesses and teams in the digital realm.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -138,7 +140,7 @@ export default function Index() {
               <div className="relative">
                 <OptimizedImage
                   src={profileImage}
-                  alt="Thomas van den Nieuwenhoff"
+                  alt={siteConfig.profileImage.alt}
                   className="relative w-64 h-64 md:w-80 md:h-80 rounded-full object-cover shadow-card border-4 border-background"
                   preset="avatarLarge"
                   showSkeleton={false}

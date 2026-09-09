@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { screen } from "@testing-library/react";
 import { renderWithProviders } from "@/test/test-utils";
 import About from "../About";
+import { siteConfig } from "@/config/site";
 
 describe("About page", () => {
   it("renders page title", () => {
@@ -28,7 +29,7 @@ describe("About page", () => {
 
   it("renders profile image", () => {
     renderWithProviders(<About />);
-    const img = screen.getByAltText("Thomas van den Nieuwenhoff");
+    const img = screen.getByAltText(siteConfig.profileImage.alt);
     expect(img).toBeInTheDocument();
   });
 });

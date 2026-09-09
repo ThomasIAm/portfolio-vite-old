@@ -14,7 +14,9 @@ import { SEO } from "@/components/seo/SEO";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { OptimizedImage } from "@/components/ui/optimized-image";
-const profileImage = "/assets/profile.jpg";
+import { siteConfig } from "@/config/site";
+
+const profileImage = siteConfig.profileImage.src;
 
 const INITIAL_CERTS_COUNT = 8;
 
@@ -463,7 +465,7 @@ export default function About() {
     <Layout>
       <SEO
         title="About"
-        description="Learn about Thomas van den Nieuwenhoff - Lead Cyber Security Consultant with certifications in Cloudflare, Zero Trust, and OpenShift."
+        description={siteConfig.seo.aboutDescription}
         canonical="/about"
         type="profile"
         keywords={[
@@ -485,7 +487,7 @@ export default function About() {
                 </span>
                 <OptimizedImage
                   src={profileImage}
-                  alt="Thomas van den Nieuwenhoff"
+                  alt={siteConfig.profileImage.alt}
                   className="w-48 h-48 md:w-56 md:h-56 rounded-2xl object-cover shadow-card"
                   preset="avatarLarge"
                   showSkeleton={false}
@@ -499,7 +501,7 @@ export default function About() {
                   About Me
                 </h1>
                 <p className="text-xl text-muted-foreground">
-                  Lead Cyber Security Consultant with a passion for empowering
+                  {siteConfig.role} with a passion for empowering
                   businesses in the digital realm.
                 </p>
               </div>

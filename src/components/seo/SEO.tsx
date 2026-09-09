@@ -7,6 +7,7 @@ import {
   generateOgImageUrl,
   type RouteMetadata 
 } from "@/config/seo-metadata";
+import { siteConfig } from "@/config/site";
 
 interface SEOProps {
   // Override the shared config if needed
@@ -22,7 +23,7 @@ interface SEOProps {
   structuredData?: object;
 }
 
-const BASE_URL = import.meta.env.VITE_CF_PAGES_URL || "";
+const BASE_URL = import.meta.env.VITE_CF_PAGES_URL || siteConfig.siteUrl;
 
 export function SEO({
   title: titleOverride,
@@ -57,15 +58,13 @@ export function SEO({
     description,
     url: canonicalUrl,
     image: ogImage,
-    author: {
-      "@type": "Person",
-      name: SITE_NAME,
-      url: BASE_URL,
-      jobTitle: "Lead Cyber Security Consultant",
-      sameAs: [
-        "https://linkedin.com/in/tvdn",
-      ],
-    },
+      author: {
+        "@type": "Person",
+        name: SITE_NAME,
+        url: BASE_URL,
+        jobTitle: siteConfig.role,
+        sameAs: siteConfig.sameAs,
+      },
     ...(publishedDate && { datePublished: publishedDate }),
     ...(modifiedDate && { dateModified: modifiedDate }),
   };

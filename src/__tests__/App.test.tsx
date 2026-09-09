@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import App from "../App";
+import { siteConfig } from "@/config/site";
 
 vi.mock("@unhead/react", () => ({
   Head: ({ children }: { children: React.ReactNode }) => <>{children}</>,
@@ -16,7 +17,7 @@ describe("App", () => {
 
   it("renders the home page by default", () => {
     render(<App />);
-    const matches = screen.getAllByText("Thomas van den Nieuwenhoff");
+    const matches = screen.getAllByText(siteConfig.name);
     expect(matches.length).toBeGreaterThan(0);
   });
 

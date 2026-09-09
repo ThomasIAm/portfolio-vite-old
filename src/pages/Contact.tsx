@@ -2,20 +2,21 @@ import { Layout } from "@/components/layout/Layout";
 import { Mail, Linkedin, Github, MapPin, Gitlab } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/seo/SEO";
+import { siteConfig } from "@/config/site";
 
 const contactMethods = [
   {
     icon: Mail,
-    label: "Work Email",
-    value: "thomas.vandennieuwenhoff@salt-security.com",
-    href: "mailto:thomas.vandennieuwenhoff@salt-security.com",
-    description: "Best for professional inquiries",
+    label: siteConfig.contact.email.label,
+    value: siteConfig.contact.email.address,
+    href: `mailto:${siteConfig.contact.email.address}`,
+    description: siteConfig.contact.email.description,
   },
   {
     icon: Linkedin,
-    label: "LinkedIn",
-    value: "linkedin.com/in/tvdn",
-    href: "https://linkedin.com/in/tvdn",
+    label: siteConfig.social.linkedin.label,
+    value: siteConfig.social.linkedin.display,
+    href: siteConfig.social.linkedin.href,
     description: "Connect professionally",
   },
   {
@@ -23,8 +24,8 @@ const contactMethods = [
     label: "Code",
     description: "Check out my repositories",
     links: [
-      { icon: Github, label: "GitHub", href: "https://github.com/tvdn" },
-      { icon: Gitlab, label: "GitLab", href: "https://gitlab.com/tvdn" },
+      { icon: Github, label: siteConfig.social.github.label, href: siteConfig.social.github.href },
+      { icon: Gitlab, label: siteConfig.social.gitlab.label, href: siteConfig.social.gitlab.href },
     ],
   },
 ];
@@ -34,7 +35,7 @@ export default function Contact() {
     <Layout>
       <SEO
         title="Contact"
-        description="Get in touch with Thomas van den Nieuwenhoff for cyber security consulting, speaking engagements, or collaboration opportunities."
+        description={siteConfig.seo.contactDescription}
         canonical="/contact"
         keywords={["contact cyber security consultant", "hire security expert", "security consulting Netherlands"]}
       />
@@ -129,9 +130,9 @@ export default function Contact() {
             <div className="mt-12 p-6 rounded-2xl bg-muted/50 flex items-start gap-4 animate-fade-up" style={{ animationDelay: "0.4s" }}>
               <MapPin className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
               <div>
-                <p className="text-foreground font-medium">Based in the Netherlands</p>
+                <p className="text-foreground font-medium">{siteConfig.contact.location.label}</p>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Available for remote collaboration worldwide. Open to discussing security consulting, speaking engagements, and collaboration opportunities.
+                  {siteConfig.contact.location.description}
                 </p>
               </div>
             </div>
@@ -151,7 +152,7 @@ export default function Contact() {
             </p>
             <Button variant="warm" size="lg" asChild>
               <a
-                href="https://linkedin.com/in/tvdn"
+                href={siteConfig.social.linkedin.href}
                 target="_blank"
                 rel="noopener noreferrer"
               >

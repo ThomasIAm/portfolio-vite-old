@@ -1,6 +1,6 @@
-# Thomas van den Nieuwenhoff - Portfolio
+# Portfolio Vite Framework
 
-A modern, responsive portfolio website showcasing my work as a Lead Cyber Security Consultant.
+A modern, responsive portfolio website framework originally built for my own site and now structured for easier reuse.
 
 ## 🚀 Tech Stack
 
@@ -40,6 +40,21 @@ npm install
 # Start the development server
 npm run dev
 ```
+
+### Make It Your Own
+
+The quickest way to reuse this project is to update `src/config/site.ts`.
+
+That single config file now centralizes the most commonly rebranded values:
+
+- site name and professional title
+- primary site URL
+- profile image path and alt text
+- social/profile links
+- contact email and location copy
+- shared SEO descriptions
+
+After that, update the page-specific content in `src/pages/` and your Contentful content model/data as needed.
 
 ### Environment Variables
 

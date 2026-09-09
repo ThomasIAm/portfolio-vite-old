@@ -1,13 +1,14 @@
 import { Gitlab, Github, Linkedin, Mail, Pencil, Bug, Activity } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { siteConfig } from "@/config/site";
 
-const GITHUB_REPO = "https://github.com/ThomasIAm/portfolio-vite";
+const GITHUB_REPO = siteConfig.repoUrl;
 
 const socialLinks = [
-  { href: "https://www.linkedin.com/in/tvdn", icon: Linkedin, label: "LinkedIn" },
-  { href: "https://github.com/ThomasIAm", icon: Github, label: "GitHub" },
-  { href: "https://gitlab.com/ThomasIAm", icon: Gitlab, label: "GitLab" },
-  { href: "mailto:thomas.vandennieuwenhoff@salt-security.com", icon: Mail, label: "Email" },
+  { href: siteConfig.social.linkedin.href, icon: Linkedin, label: siteConfig.social.linkedin.label },
+  { href: siteConfig.social.github.href, icon: Github, label: siteConfig.social.github.label },
+  { href: siteConfig.social.gitlab.href, icon: Gitlab, label: siteConfig.social.gitlab.label },
+  { href: `mailto:${siteConfig.contact.email.address}`, icon: Mail, label: "Email" },
 ];
 
 // Map routes to source files
@@ -54,10 +55,10 @@ export function Footer() {
               to="/" 
               className="font-display text-lg font-semibold text-foreground hover:text-primary transition-colors"
             >
-              Thomas van den Nieuwenhoff
+              {siteConfig.name}
             </Link>
             <p className="text-sm text-muted-foreground mt-1">
-              Lead Cyber Security Consultant
+              {siteConfig.role}
             </p>
           </div>
 
@@ -79,7 +80,7 @@ export function Footer() {
 
         <div className="mt-8 pt-8 pb-16 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-4">
-            <p>© {currentYear} Thomas van den Nieuwenhoff</p>
+            <p>© {currentYear} {siteConfig.name}</p>
             <span className="hidden sm:inline text-border">|</span>
             <div className="flex items-center gap-3">
               <Link to="/privacy" className="hover:text-foreground transition-colors">
@@ -113,7 +114,7 @@ export function Footer() {
               Open Issue
             </a>
             <a
-              href="https://status.tvdn.me"
+              href={siteConfig.social.status.href}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-muted hover:text-foreground transition-colors"

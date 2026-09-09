@@ -3,6 +3,7 @@ import { screen } from "@testing-library/react";
 import { renderWithProviders } from "@/test/test-utils";
 import Blog from "../Blog";
 import { mockBlogPosts } from "@/test/mocks/blog-posts";
+import { siteConfig } from "@/config/site";
 
 // Mock the entire useBlogPosts module
 vi.mock("@/hooks/useBlogPosts", () => ({
@@ -50,7 +51,7 @@ describe("Blog page", () => {
   it("renders LinkedIn follow link", () => {
     renderWithProviders(<Blog />);
     const linkedinLink = screen.getByText("Follow on LinkedIn");
-    expect(linkedinLink.closest("a")).toHaveAttribute("href", "https://linkedin.com/in/tvdn");
+    expect(linkedinLink.closest("a")).toHaveAttribute("href", siteConfig.social.linkedin.href);
     expect(linkedinLink.closest("a")).toHaveAttribute("target", "_blank");
   });
 
